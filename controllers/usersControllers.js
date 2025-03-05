@@ -1,11 +1,11 @@
-import User from '../models/User.js';
+import UserSchema from '../models/user.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 // coins function to get user points
 export const pointsUser = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id, "coins");
+    const user = await UserSchema.findById(req.user.id, "coins");
     if (!user) return res.status(404).json({ message: "User not found" });
     res.json({ coins: user.coins });
   } catch (error) {
@@ -17,7 +17,7 @@ export const getUserSearchHistory = async (req, res) => {
   // const {userId} = req.body
   // console.log(userId,"userID")
   try {
-    const user = await User.findById(req.user.id, "searchHistory");
+    const user = await UserSchema.findById(req.user.id, "searchHistory");
     if (!user) return res.status(404).json({ meesage: "History not found" })
     res.json({ searchHistory: user.searchHistory });
   } catch (error) {
@@ -38,7 +38,7 @@ export const userSignUp = async (req, res) => {
 
   try {
     // Check if user exists with the same email & source OR phone & source
-    const existingUser = await User.findOne({
+    const existingUser = await UserSchema.findOne({
       $or: [
         { email, registrationSource },
         { phoneNumber, registrationSource }
@@ -49,7 +49,7 @@ export const userSignUp = async (req, res) => {
       return res.status(400).json({ message: "User already registered with this source" });
     }
 
-    const user = await User.create({
+    const user = await UserSchema.create({
       name,
       email,
       password: hashPassword,
@@ -75,7 +75,7 @@ export const userLogin = async (req, res) => {
 
   try {
     // Find user by email OR phone number
-    const user = await User.findOne({
+    const user = await UserSchema.findOne({
       $or: [{ email: emailOrPhone }, { phoneNumber: emailOrPhone }]
     });
 
