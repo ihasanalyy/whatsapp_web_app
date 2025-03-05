@@ -1,4 +1,5 @@
-import User from "../models/user.js";
+// const User = require("../models/User");
+import User from "../models/User.js";
 // import vendor from "../models/Vendor.js";
 import { sendTextMessage, sendButtonMessage, sendListMessage } from "../helper/messageHelper.js"
 import { uploadBusinessPhoto } from "../helper/uploadBusinessPhoto.js";
